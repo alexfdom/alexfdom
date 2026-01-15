@@ -1,0 +1,28 @@
+title: "Alex F. Dominguez"
+job_title: "Machine Learning Engineer"
+description: "Engineer dedicated to tackling complex challenges through software engineering, data analytics, and artificial intelligence."
+baseurl: "/alexfdom"
+url: "https://alexfdom.github.io"
+favicon: "assets/images/favicon.ico"
+portraits:
+  - "assets/images/portrait1.jpg"
+  - "assets/images/portrait2.jpg"
+
+social:  
+  github: "alexfdom"
+  x: "alexfdom"
+  linkedin: "alexfdom"
+
+email: "alejandrofdom@gmail.com"
+
+include:
+  - _pages
+
+# Simple config for the site
+markdown: kramdown
+
+# No plugins needed for this simple site
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules

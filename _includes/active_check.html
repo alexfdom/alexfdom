@@ -1,0 +1,5 @@
+{% assign page_slug = page.url | split: "/" | last %}
+{% assign nav_slug = item.url | split: "/" | last %}
+
+<a href="{{ item.url | relative_url }}" 
+   class="page-nav-link {% if page.url == item.url or (page_slug == '' and nav_slug == '') %}selected{% endif %}">

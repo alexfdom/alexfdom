@@ -1,0 +1,11 @@
+- title: "Notebooks"
+  description: "A collection of notebooks for experiments, analyses, and explorations across different machine learning topics."
+  authors:
+  venue: 
+  year: 
+  links:
+    default: "https://github.com/alexfdom/notebooks"
+    paper: 
+    code: "https://github.com/alexfdom/notebooks"
+    tldr: 
+    app:
