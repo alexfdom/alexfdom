@@ -1,0 +1,5 @@
+- title: "Bare Git Repository"
+  description: "Set up to manage my dotfiles, ensuring a clean and efficient way to keep my configurations consistent across all my devices."
+  links:
+    default: "https://github.com/alexfdom/my-config"
+    code: "https://github.com/alexfdom/my-config"
