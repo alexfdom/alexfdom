@@ -18,10 +18,8 @@ email: "alejandrofdom@gmail.com"
 include:
   - _pages
 
-# Simple config for the site
 markdown: kramdown
 
-# No plugins needed for this simple site
 exclude:
   - Gemfile
   - Gemfile.lock

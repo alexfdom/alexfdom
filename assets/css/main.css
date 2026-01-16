@@ -71,7 +71,6 @@ body {
     width: 150px;
     height: 150px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     margin-bottom: 30px;
     background-size: cover;
     background-position: center;
@@ -407,10 +406,13 @@ body {
     right: 17px;
     top: 0;
     z-index: 10;
+    pointer-events: auto;
+    touch-action: auto;
 }
 
 .sidebar-content {
     width: 100%;
+    pointer-events: auto;
 }
 
 .sidebar-title {
@@ -436,14 +438,22 @@ body {
     font-size: 0.9rem;
     line-height: 1.5;
     display: block;
-    padding: 4px 0;
+    padding: 8px 0;
+    margin: 2px 0;
     transition: all 0.2s;
     position: relative;
     text-align: right;
+    min-height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
 }
 
 .index-list a:hover {
     color: #2563eb;
+    background-color: rgba(37, 99, 235, 0.05);
+    padding-right: 8px;
+    border-radius: 4px 0 0 4px;
 }
 
 .h2-item {
@@ -454,6 +464,12 @@ body {
     font-weight: 600;
     color: #212529;
     font-size: 0.95rem;
+    padding: 10px 0;
+}
+
+.h2-link.active-parent {
+    color: #2563eb;
+    font-weight: 500;
 }
 
 .h3-list {
@@ -470,10 +486,16 @@ body {
     color: #6c757d;
     font-size: 0.85rem;
     font-weight: normal;
+    padding: 6px 0;
+}
+
+.index-list a.active {
+    color: #2563eb;
+    font-weight: 500;
 }
 
 .index-list a.active::after {
-    content: "•";
+    content: "";
     position: absolute;
     right: -15px;
     top: 50%;
@@ -501,7 +523,9 @@ body {
 
 @media (max-width: 1200px) {
     .right-sidebar {
-        display: none;
+        width: 200px;
+        padding: 40px 15px;
+        right: 10px;
     }
     
     .content-container {
