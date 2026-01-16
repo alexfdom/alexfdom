@@ -30,7 +30,7 @@
     default: "https://github.com/alexfdom/data-quality-engine"
     code: "https://github.com/alexfdom/data-quality-engine"
 
-- title: "Ongoing research with the Apple's MPS for Transformers inference."
+- title: "Ongoing research with the Apple's MPS for Transformers inference"
   description: 
   authors:
   venue: 
