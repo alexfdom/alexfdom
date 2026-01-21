@@ -29,15 +29,3 @@
   links:
     default: "https://github.com/alexfdom/data-quality-engine"
     code: "https://github.com/alexfdom/data-quality-engine"
-
-- title: "Ongoing research with the Apple's MPS for Transformers inference"
-  description: 
-  authors:
-  venue: 
-  year: 
-  links:
-    default: "https://github.com/alexfdom/apple-mps"
-    paper: 
-    code: "https://github.com/alexfdom/apple-mps"
-    tldr: 
-    app:
