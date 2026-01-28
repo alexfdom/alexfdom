@@ -353,6 +353,10 @@ body {
         min-height: 100vh;
     }
     
+    .right-sidebar {
+        display: none;
+    }
+
     .left-nav {
         height: auto;
         min-height: 200px;
@@ -521,7 +525,7 @@ body {
     margin: 0;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1400px) {
     .right-sidebar {
         width: 200px;
         padding: 40px 15px;
@@ -530,6 +534,10 @@ body {
     
     .content-container {
         margin-right: 0;
+    }
+
+    .right-sidebar {
+        display: none;
     }
 }
 
