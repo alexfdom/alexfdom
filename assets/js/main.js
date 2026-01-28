@@ -1,7 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM loaded - initializing TOC...');
+    console.log('DOM loaded - initializing TOC and profile image cycling...');
     
     generateDynamicTOC();
+    
+    initializeProfileImageCycle();
     
     function generateDynamicTOC() {
         const mainContent = document.getElementById('main-content');
@@ -72,97 +74,34 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function setupTOCInteractions() {
-  const tocContainer = document.getElementById('dynamic-toc');
-  const scroller = document.querySelector('.content-container');
-  if (!tocContainer || !scroller) return;
+        const tocContainer = document.getElementById('dynamic-toc');
+        const scroller = document.querySelector('.content-container');
+        if (!tocContainer || !scroller) return;
 
-  tocContainer.addEventListener('click', (e) => {
-    const link = e.target.closest('a[href^="#"]');
-    if (!link) return;
+        tocContainer.addEventListener('click', (e) => {
+            const link = e.target.closest('a[href^="#"]');
+            if (!link) return;
 
-    e.preventDefault();
+            e.preventDefault();
 
-    const targetId = link.getAttribute('href').slice(1);
-    const targetElement = document.getElementById(targetId);
-    if (!targetElement) return;
+            const targetId = link.getAttribute('href').slice(1);
+            const targetElement = document.getElementById(targetId);
+            if (!targetElement) return;
 
-    const headerOffset = 100;
+            const headerOffset = 100;
+            const targetTop = targetElement.getBoundingClientRect().top -
+                            scroller.getBoundingClientRect().top +
+                            scroller.scrollTop;
 
-    const targetTop =
-      targetElement.getBoundingClientRect().top -
-      scroller.getBoundingClientRect().top +
-      scroller.scrollTop;
+            scroller.scrollTo({
+                top: targetTop - headerOffset,
+                behavior: 'smooth',
+            });
 
-    scroller.scrollTo({
-      top: targetTop - headerOffset,
-      behavior: 'smooth',
-    });
-
-    history.replaceState(null, '', `#${targetId}`);
-  });
-
-  setupScrollSpy(scroller);
-}
-
-    function setupScrollSpy(scroller) {
-    const tocContainer = document.getElementById('dynamic-toc');
-    if (!tocContainer || !scroller) return;
-
-    const links = tocContainer.querySelectorAll('a[href^="#"]');
-    if (!links.length) return;
-
-    const sections = [];
-    links.forEach((link) => {
-        const id = link.getAttribute('href').slice(1);
-        const section = document.getElementById(id);
-        if (section) {
-        sections.push({
-            link,
-            section,
-            isH3: link.classList.contains('h3-link'),
-        });
-        }
-    });
-
-    function updateActiveSection() {
-        sections.forEach(({ link }) => {
-        link.classList.remove('active');
-        link.closest('.h2-item')?.querySelector('.h2-link')?.classList.remove('active-parent');
+            history.replaceState(null, '', `#${targetId}`);
         });
 
-        let active = null;
-        let minDist = Infinity;
-
-        sections.forEach(({ link, section, isH3 }) => {
-        const rect = section.getBoundingClientRect();
-        const scrollerRect = scroller.getBoundingClientRect();
-
-        const topInScroller = rect.top - scrollerRect.top;
-        const bottomInScroller = rect.bottom - scrollerRect.top;
-
-        if (topInScroller <= 150 && bottomInScroller >= 50) {
-            const dist = Math.abs(topInScroller - 100);
-            if (dist < minDist) {
-            minDist = dist;
-            active = { link, isH3 };
-            }
-        }
-        });
-
-        if (active) {
-        active.link.classList.add('active');
-        if (active.isH3) {
-            active.link.closest('.h2-item')?.querySelector('.h2-link')?.classList.add('active-parent');
-        }
-        }
-    }
-
-    const onScroll = () => requestAnimationFrame(updateActiveSection);
-
-    scroller.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll, { passive: true });
-
-    setTimeout(updateActiveSection, 100);
+        setupScrollSpy(scroller);
     }
     
     function setupScrollSpy(scroller) {
@@ -186,12 +125,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
         function clearActive() {
             links.forEach((l) => {
-            l.classList.remove('active');
-            l.classList.remove('active-parent');
+                l.classList.remove('active');
+                l.classList.remove('active-parent');
             });
 
             tocContainer.querySelectorAll('.h2-link.active-parent').forEach((l) => {
-            l.classList.remove('active-parent');
+                l.classList.remove('active-parent');
             });
         }
 
@@ -204,41 +143,41 @@ document.addEventListener('DOMContentLoaded', function() {
             link.classList.add('active');
 
             if (link.classList.contains('h3-link')) {
-            const h2Item = link.closest('.h2-item');
-            const h2Link = h2Item?.querySelector('.h2-link');
-            if (h2Link) h2Link.classList.add('active-parent');
+                const h2Item = link.closest('.h2-item');
+                const h2Link = h2Item?.querySelector('.h2-link');
+                if (h2Link) h2Link.classList.add('active-parent');
             }
         }
 
         const observer = new IntersectionObserver(
             (entries) => {
-            const visible = entries
-                .filter((e) => e.isIntersecting)
-                .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+                const visible = entries
+                    .filter((e) => e.isIntersecting)
+                    .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
 
-            if (visible.length) {
-                setActive(visible[0].target.id);
-            } else {
-                const scrollerRect = scroller.getBoundingClientRect();
-                let bestId = null;
-                let bestTop = -Infinity;
+                if (visible.length) {
+                    setActive(visible[0].target.id);
+                } else {
+                    const scrollerRect = scroller.getBoundingClientRect();
+                    let bestId = null;
+                    let bestTop = -Infinity;
 
-                for (const sec of sections) {
-                const r = sec.getBoundingClientRect();
-                const topInScroller = r.top - scrollerRect.top;
+                    for (const sec of sections) {
+                        const r = sec.getBoundingClientRect();
+                        const topInScroller = r.top - scrollerRect.top;
 
-                if (topInScroller <= 120 && topInScroller > bestTop) {
-                    bestTop = topInScroller;
-                    bestId = sec.id;
+                        if (topInScroller <= 120 && topInScroller > bestTop) {
+                            bestTop = topInScroller;
+                            bestId = sec.id;
+                        }
+                    }
+                    if (bestId) setActive(bestId);
                 }
-                }
-                if (bestId) setActive(bestId);
-            }
             },
             {
-            root: scroller,
-            rootMargin: "-110px 0px -65% 0px",
-            threshold: [0.05, 0.1, 0.2, 0.4, 0.6, 0.8],
+                root: scroller,
+                rootMargin: "-110px 0px -65% 0px",
+                threshold: [0.05, 0.1, 0.2, 0.4, 0.6, 0.8],
             }
         );
 
@@ -247,78 +186,78 @@ document.addEventListener('DOMContentLoaded', function() {
         requestAnimationFrame(() => {
             const hash = location.hash?.slice(1);
             if (hash && idToLink.has(hash)) {
-            setActive(hash);
+                setActive(hash);
             } else if (sections[0]) {
-            setActive(sections[0].id);
+                setActive(sections[0].id);
             }
         });
     }
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('Initializing profile image cycling...');
     
-    const profile = document.getElementById('profile-cycle');
-    if (!profile) {
-        console.log('Profile element not found');
-        return;
-    }
-    
-    const rawData = profile.getAttribute('data-portraits');
-    console.log('Raw portrait data:', rawData);
-    
-    try {
-        const portraits = JSON.parse(rawData);
-        console.log('Parsed portraits:', portraits);
+    function initializeProfileImageCycle() {
+        console.log('Initializing profile image cycling...');
         
-        const overlay = profile.querySelector('.profile-cycle-overlay');
-        const fallback = profile.querySelector('.profile-fallback');
-        
-        if (!overlay || !fallback) {
-            console.error('Overlay or fallback image not found');
+        const profile = document.getElementById('profile-cycle');
+        if (!profile) {
+            console.log('Profile element not found');
             return;
         }
         
-        overlay.style.backgroundSize = 'cover';
-        overlay.style.backgroundPosition = 'center';
+        const rawData = profile.getAttribute('data-portraits');
+        console.log('Raw portrait data:', rawData);
         
-        let currentIndex = 0;
-        let interval = null;
-        
-        portraits.forEach(url => {
-            const img = new Image();
-            img.src = url;
-        });
-        
-        profile.addEventListener('mouseenter', function() {
-            console.log('🟢 Profile hover started');
+        try {
+            const portraits = JSON.parse(rawData);
+            console.log('Parsed portraits:', portraits);
             
-            fallback.style.opacity = '0';
-            overlay.style.opacity = '1';
+            const overlay = profile.querySelector('.profile-cycle-overlay');
+            const fallback = profile.querySelector('.profile-fallback');
             
-            currentIndex = 0;
-            overlay.style.backgroundImage = `url('${portraits[currentIndex]}')`;
-            
-            interval = setInterval(() => {
-                currentIndex = (currentIndex + 1) % portraits.length;
-                overlay.style.backgroundImage = `url('${portraits[currentIndex]}')`;
-            }, 1000);
-        });
-        
-        profile.addEventListener('mouseleave', function() {
-            console.log('🔴 Profile hover ended');
-            
-            if (interval) {
-                clearInterval(interval);
-                interval = null;
+            if (!overlay || !fallback) {
+                console.error('Overlay or fallback image not found');
+                return;
             }
             
-            fallback.style.opacity = '1';
-            overlay.style.opacity = '0';
-            currentIndex = 0;
-        });
-        
-    } catch (error) {
-        console.error('Error with profile image cycling:', error);
+            overlay.style.backgroundSize = 'cover';
+            overlay.style.backgroundPosition = 'center';
+            
+            let currentIndex = 0;
+            let interval = null;
+            
+            portraits.forEach(url => {
+                const img = new Image();
+                img.src = url;
+            });
+            
+            profile.addEventListener('mouseenter', function() {
+                console.log('🟢 Profile hover started');
+                
+                fallback.style.opacity = '0';
+                overlay.style.opacity = '1';
+                
+                currentIndex = 0;
+                overlay.style.backgroundImage = `url('${portraits[currentIndex]}')`;
+                
+                interval = setInterval(() => {
+                    currentIndex = (currentIndex + 1) % portraits.length;
+                    overlay.style.backgroundImage = `url('${portraits[currentIndex]}')`;
+                }, 1000);
+            });
+            
+            profile.addEventListener('mouseleave', function() {
+                console.log('🔴 Profile hover ended');
+                
+                if (interval) {
+                    clearInterval(interval);
+                    interval = null;
+                }
+                
+                fallback.style.opacity = '1';
+                overlay.style.opacity = '0';
+                currentIndex = 0;
+            });
+            
+        } catch (error) {
+            console.error('Error with profile image cycling:', error);
+        }
     }
 });
