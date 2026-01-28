@@ -1,6 +1,6 @@
 ---
 layout: default  
-title: My Config
+title: Alex | My Config
 permalink: /myconfig/
 ---
 

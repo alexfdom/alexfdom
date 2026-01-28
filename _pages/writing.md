@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Writing
+title: Alex | Writing
 permalink: /writing/
 ---
 
