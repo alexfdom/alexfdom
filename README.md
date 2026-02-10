@@ -1,3 +1,3 @@
-# [Personal Website](https://alexfdom.github.io/alexfdom/)
+# [~/projects](https://alexfdom.github.io/alexfdom/)
 
 A hub to share my projects and ideas.
