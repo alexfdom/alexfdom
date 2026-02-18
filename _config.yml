@@ -3,8 +3,7 @@ job_title: "Machine Learning Engineer"
 description: "Engineer dedicated to tackling complex challenges through software engineering, data analytics, and artificial intelligence."
 baseurl: "/alexfdom"
 url: "https://alexfdom.github.io"
-favicon: "assets/images/favicon.ico"
-favicon_version: 2
+favicon: "assets/images/favicon_v2.ico"
 portraits:
   - "assets/images/portrait1.jpg"
   - "assets/images/portrait2.jpg"
