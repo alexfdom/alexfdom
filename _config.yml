@@ -4,6 +4,7 @@ description: "Engineer dedicated to tackling complex challenges through software
 baseurl: "/alexfdom"
 url: "https://alexfdom.github.io"
 favicon: "assets/images/favicon.ico"
+favicon_version: 2
 portraits:
   - "assets/images/portrait1.jpg"
   - "assets/images/portrait2.jpg"
